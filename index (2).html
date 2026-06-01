@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Rediet Goshu — Data Science Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#070b12;
+  --bg2:#0d1320;
+  --card:#111827;
+  --card2:#151e2d;
+  --border:rgba(255,255,255,0.06);
+  --border2:rgba(255,255,255,0.12);
+  --green:#00e896;
+  --cyan:#22d3ee;
+  --amber:#f59e0b;
+  --purple:#a78bfa;
+  --text:#f0f4f8;
+  --muted:#8897a8;
+  --muted2:#aab4c0;
+  --serif:'Playfair Display',serif;
+  --sans:'Outfit',sans-serif;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.7;overflow-x:hidden;}
+
+/* ── NOISE OVERLAY ── */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;opacity:.4;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.1rem 5rem;
+  background:rgba(7,11,18,0.85);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{font-family:var(--serif);font-size:1.2rem;color:var(--text);letter-spacing:.02em;}
+.nav-logo span{color:var(--green);}
+.nav-links{display:flex;gap:2.2rem;list-style:none;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.82rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;transition:color .2s;}
+.nav-links a:hover{color:var(--green);}
+.nav-actions{display:flex;align-items:center;gap:.75rem;}
+.nav-icon{
+  display:flex;align-items:center;justify-content:center;
+  width:36px;height:36px;border-radius:9px;
+  border:1px solid var(--border2);color:var(--muted);
+  text-decoration:none;font-size:.75rem;font-weight:600;transition:all .2s;
+}
+.nav-icon:hover{border-color:var(--green);color:var(--green);}
+.nav-cta{
+  background:var(--green);color:#070b12;
+  font-size:.8rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;
+  padding:.5rem 1.2rem;border-radius:100px;text-decoration:none;transition:opacity .2s,transform .2s;
+}
+.nav-cta:hover{opacity:.85;transform:translateY(-1px);}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  padding:7rem 5rem 5rem;position:relative;overflow:hidden;
+}
+/* Background glow blobs */
+.hero-blob1{
+  position:absolute;top:-200px;right:-100px;
+  width:700px;height:700px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,232,150,.07) 0%,transparent 65%);
+  pointer-events:none;
+}
+.hero-blob2{
+  position:absolute;bottom:-150px;left:-150px;
+  width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(34,211,238,.05) 0%,transparent 65%);
+  pointer-events:none;
+}
+/* Subtle grid lines */
+.hero::after{
+  content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
+  background-size:80px 80px;pointer-events:none;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 40%,transparent 100%);
+}
+
+.hero-layout{
+  display:flex;flex-direction:column;align-items:center;text-align:center;max-width:760px;margin:0 auto;
+  align-items:center;max-width:1100px;margin:0 auto;
+  position:relative;z-index:1;width:100%;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:rgba(0,232,150,.08);color:var(--green);
+  border:1px solid rgba(0,232,150,.2);border-radius:100px;
+  font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  padding:.32rem .9rem;margin-bottom:1.8rem;
+}
+.hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.8);}}
+.hero h1{
+  font-family:var(--serif);
+  font-size:clamp(3rem,6vw,5.5rem);
+  line-height:1.05;margin-bottom:1.4rem;
+  color:var(--text);
+}
+.hero h1 .name{color:var(--green);font-style:italic;}
+.hero-sub{
+  font-size:1.05rem;color:var(--muted2);
+  max-width:500px;margin-bottom:2.4rem;line-height:1.85;font-weight:300;
+}
+.cta-row{display:flex;align-items:center;justify-content:center;gap:1rem;flex-wrap:wrap;}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:.45rem;
+  background:var(--green);color:#070b12;
+  font-weight:600;font-size:.88rem;padding:.8rem 1.7rem;
+  border-radius:100px;text-decoration:none;transition:opacity .2s,transform .2s;
+  letter-spacing:.02em;
+}
+.btn-primary:hover{opacity:.87;transform:translateY(-2px);}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:.45rem;
+  border:1px solid var(--border2);color:var(--muted2);
+  font-weight:500;font-size:.88rem;padding:.8rem 1.7rem;
+  border-radius:100px;text-decoration:none;transition:all .2s;
+}
+.btn-ghost:hover{border-color:var(--green);color:var(--green);transform:translateY(-2px);}
+
+
+
+/* Stats row under CTA */
+.hero-stats{display:flex;gap:3rem;margin-top:2.4rem;justify-content:center;}
+.hero-stat{}
+.hero-stat .num{font-family:var(--serif);font-size:1.8rem;color:var(--green);line-height:1;display:block;}
+.hero-stat .label{font-size:.72rem;color:var(--muted);font-weight:500;letter-spacing:.06em;text-transform:uppercase;display:block;margin-top:.2rem;}
+
+/* ── LAYOUT WRAPPER ── */
+.wrap{max-width:1100px;margin:0 auto;padding:5.5rem 5rem;}
+.section-label{font-size:.7rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--green);margin-bottom:.5rem;}
+.section-title{font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.5rem);line-height:1.15;margin-bottom:2.8rem;color:var(--text);}
+.divider{border:none;border-top:1px solid var(--border);margin:0 5rem;}
+
+/* ── ABOUT ── */
+.about-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:5rem;align-items:start;}
+.about-left{}
+.about-left .section-title{margin-bottom:0;}
+.about-right p{color:var(--muted2);font-size:.97rem;margin-bottom:1rem;font-weight:300;line-height:1.85;}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem;}
+.stat-box{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;padding:1.3rem 1rem;text-align:center;
+  transition:border-color .25s;
+}
+.stat-box:hover{border-color:rgba(0,232,150,.25);}
+.stat-num{font-family:var(--serif);font-size:2rem;color:var(--green);display:block;line-height:1;margin-bottom:.3rem;}
+.stat-desc{font-size:.73rem;color:var(--muted);font-weight:500;letter-spacing:.04em;text-transform:uppercase;}
+
+/* ── SKILLS ── */
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;}
+.skill-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:16px;padding:1.6rem 1.4rem;
+  transition:border-color .25s,transform .25s;
+}
+.skill-card:hover{border-color:rgba(0,232,150,.25);transform:translateY(-3px);}
+.skill-icon{
+  width:44px;height:44px;border-radius:11px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;margin-bottom:.9rem;
+}
+.sk-green{background:rgba(0,232,150,.1);}
+.sk-blue{background:rgba(34,211,238,.1);}
+.sk-purple{background:rgba(167,139,250,.1);}
+.sk-amber{background:rgba(245,158,11,.1);}
+.skill-card h3{font-size:.93rem;font-weight:600;margin-bottom:.45rem;color:var(--text);}
+.skill-card p{color:var(--muted);font-size:.83rem;line-height:1.6;margin-bottom:.85rem;font-weight:300;}
+.tags{display:flex;flex-wrap:wrap;gap:.4rem;}
+.tag{
+  background:rgba(255,255,255,.04);border:1px solid var(--border);
+  border-radius:100px;font-size:.69rem;font-weight:500;
+  padding:.2rem .65rem;color:var(--muted2);
+}
+
+/* ── PROJECTS ── */
+.projects-list{display:flex;flex-direction:column;gap:1.2rem;}
+.project-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:18px;padding:1.8rem 2rem;
+  display:grid;grid-template-columns:1fr auto;gap:1.5rem;align-items:start;
+  transition:border-color .25s,transform .2s;
+}
+.project-card:hover{border-color:rgba(0,232,150,.2);transform:translateY(-2px);}
+.proj-num{font-family:var(--serif);font-size:.8rem;color:var(--green);font-style:italic;margin-bottom:.4rem;opacity:.7;}
+.project-card h3{font-size:1rem;font-weight:600;margin-bottom:.45rem;color:var(--text);}
+.project-card p{color:var(--muted2);font-size:.86rem;line-height:1.65;margin-bottom:.85rem;font-weight:300;}
+.proj-link{
+  display:inline-flex;align-items:center;gap:.35rem;
+  color:var(--green);font-size:.8rem;font-weight:500;
+  text-decoration:none;
+  border-bottom:1px solid rgba(0,232,150,.25);padding-bottom:1px;
+  transition:border-color .2s;
+}
+.proj-link:hover{border-color:var(--green);}
+.badge{
+  border-radius:100px;font-size:.67rem;font-weight:600;
+  letter-spacing:.07em;text-transform:uppercase;
+  padding:.26rem .8rem;white-space:nowrap;height:fit-content;
+}
+.badge-green{background:rgba(0,232,150,.1);border:1px solid rgba(0,232,150,.2);color:var(--green);}
+.badge-blue{background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.2);color:var(--cyan);}
+.badge-purple{background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.2);color:var(--purple);}
+.badge-amber{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);color:var(--amber);}
+
+/* ── EDUCATION ── */
+.edu-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:18px;padding:2rem 2.2rem;
+  display:flex;align-items:flex-start;gap:1.8rem;
+}
+.edu-icon{
+  width:54px;height:54px;flex-shrink:0;border-radius:13px;
+  background:rgba(0,232,150,.08);border:1px solid rgba(0,232,150,.18);
+  display:flex;align-items:center;justify-content:center;font-size:1.5rem;
+}
+.edu-info h3{font-size:1.02rem;font-weight:600;margin-bottom:.25rem;}
+.edu-info .school{color:var(--green);font-size:.86rem;font-weight:500;margin-bottom:.15rem;}
+.edu-info .school span{color:var(--muted);font-weight:400;}
+.edu-info p{color:var(--muted);font-size:.84rem;font-weight:300;line-height:1.7;}
+
+/* ── CONTACT ── */
+.contact-box{
+  background:linear-gradient(135deg,rgba(0,232,150,.04) 0%,rgba(34,211,238,.03) 100%);
+  border:1px solid rgba(0,232,150,.1);border-radius:24px;
+  padding:4.5rem 4rem;text-align:center;position:relative;overflow:hidden;
+}
+.contact-box::before{
+  content:'';position:absolute;top:-100px;right:-100px;
+  width:350px;height:350px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,232,150,.06) 0%,transparent 60%);
+  pointer-events:none;
+}
+.contact-box h2{font-family:var(--serif);font-size:2.4rem;margin-bottom:1rem;}
+.contact-box p{color:var(--muted2);max-width:420px;margin:0 auto 2.5rem;font-size:.97rem;font-weight:300;line-height:1.8;}
+.contact-links{display:flex;align-items:center;justify-content:center;gap:1rem;flex-wrap:wrap;}
+.contact-btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.78rem 1.55rem;border-radius:100px;
+  font-size:.88rem;font-weight:500;text-decoration:none;transition:all .2s;
+}
+.contact-btn.primary{background:var(--green);color:#070b12;font-weight:600;}
+.contact-btn.primary:hover{opacity:.87;transform:translateY(-2px);}
+.contact-btn.outline{border:1px solid var(--border2);color:var(--muted2);}
+.contact-btn.outline:hover{border-color:var(--green);color:var(--green);transform:translateY(-2px);}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--border);
+  padding:1.8rem 5rem;display:flex;align-items:center;
+  justify-content:space-between;color:var(--muted);font-size:.8rem;
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem;}
+  .nav-links{display:none;}
+  .hero{padding:7rem 1.5rem 4rem;}
+  .hero-layout{grid-template-columns:1fr;gap:3rem;}
+  .wrap{padding:4rem 1.5rem;}
+  .divider{margin:0 1.5rem;}
+  .about-grid{grid-template-columns:1fr;gap:2.5rem;}
+  .skills-grid{grid-template-columns:1fr 1fr;}
+  .project-card{grid-template-columns:1fr;}
+  .edu-card{flex-direction:column;gap:1rem;}
+  .contact-box{padding:2.5rem 1.5rem;}
+  footer{flex-direction:column;gap:.5rem;text-align:center;padding:1.5rem;}
+  .hero-stats{gap:1.5rem;}
+}
+@media(max-width:560px){
+  .skills-grid{grid-template-columns:1fr;}
+  .stat-row{grid-template-columns:repeat(3,1fr);}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">Rediet<span>.</span></span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="https://github.com/redina06" target="_blank" class="nav-icon" title="GitHub">GH</a>
+    <a href="https://www.linkedin.com/in/rediet-goshu-46a7b736b/" target="_blank" class="nav-icon" title="LinkedIn">in</a>
+    <a href="mailto:redietgoshu06@gmail.com" class="nav-cta">Hire Me</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-blob1"></div>
+  <div class="hero-blob2"></div>
+  <div class="hero-layout">
+    <div class="hero-text">
+      <span class="hero-badge">Open to Data Science Internships</span>
+      <h1>Hi, I'm<br><span class="name">Rediet Goshu.</span></h1>
+      <p class="hero-sub">
+        Final-year Data Science student from Ethiopia with 3+ years of hands-on experience in machine learning, deep learning, big data pipelines, and interactive visualizations.
+      </p>
+      <div class="cta-row">
+        <a href="#projects" class="btn-primary">View Projects →</a>
+        <a href="https://github.com/redina06" target="_blank" class="btn-ghost">GitHub ↗</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="num">8</span>
+          <span class="label">Projects</span>
+        </div>
+        <div class="hero-stat">
+          <span class="num">10+</span>
+          <span class="label">Tools</span>
+        </div>
+        <div class="hero-stat">
+          <span class="num">3+</span>
+          <span class="label">Years Learning</span>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-left">
+        <p class="section-label">About Me</p>
+        <h2 class="section-title">Final-year Data Science student building real-world solutions.</h2>
+      </div>
+      <div class="about-right">
+        <p>I'm Rediet Goshu, a final-year Data Science student at Debre Birhan University, Ethiopia, about to enter my 4th and last year after this summer. Over the past 3 years I've built strong hands-on experience across the full data science workflow — from data preprocessing and EDA to machine learning, deep learning, and big data engineering.</p>
+        <p>I've built end-to-end projects ranging from ETL pipelines with PySpark and DuckDB to interactive health dashboards and ML-based customer segmentation — all documented and available on GitHub.</p>
+        <p>I'm actively seeking a Data Science internship where I can contribute meaningfully, deepen my skills, and grow alongside a talented team.</p>
+        <div class="stat-row">
+          <div class="stat-box"><span class="stat-num">8</span><span class="stat-desc">Projects Built</span></div>
+          <div class="stat-box"><span class="stat-num">10+</span><span class="stat-desc">Tools & Libraries</span></div>
+          <div class="stat-box"><span class="stat-num">∞</span><span class="stat-desc">Curiosity</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="wrap">
+    <p class="section-label">Technical Skills</p>
+    <h2 class="section-title">What I work with.</h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-icon sk-green">🐍</div>
+        <h3>Python & Data Analysis</h3>
+        <p>Writing clean, efficient Python for data wrangling, EDA, and visualization using industry-standard libraries.</p>
+        <div class="tags"><span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">NumPy</span><span class="tag">Matplotlib</span><span class="tag">Seaborn</span></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon sk-blue">🤖</div>
+        <h3>Machine Learning</h3>
+        <p>Building supervised and unsupervised models including K-Means clustering, regression, and classification pipelines.</p>
+        <div class="tags"><span class="tag">Scikit-learn</span><span class="tag">K-Means</span><span class="tag">SMOTE</span><span class="tag">Feature Engineering</span></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon sk-purple">🧠</div>
+        <h3>Deep Learning</h3>
+        <p>Designing and training neural networks for image recognition and object detection using modern frameworks.</p>
+        <div class="tags"><span class="tag">TensorFlow</span><span class="tag">Keras</span><span class="tag">PyTorch</span><span class="tag">CNN</span><span class="tag">YOLOv11</span></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon sk-amber">🔥</div>
+        <h3>Big Data Engineering</h3>
+        <p>Building scalable ETL pipelines for large datasets using distributed computing tools and analytical databases.</p>
+        <div class="tags"><span class="tag">PySpark</span><span class="tag">DuckDB</span><span class="tag">ETL</span><span class="tag">Scala</span><span class="tag">Jupyter</span></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon sk-green">📊</div>
+        <h3>Data Visualization</h3>
+        <p>Creating interactive dashboards and charts to communicate complex trends clearly to any audience.</p>
+        <div class="tags"><span class="tag">Streamlit</span><span class="tag">Plotly</span><span class="tag">Matplotlib</span><span class="tag">Seaborn</span></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon sk-blue">📐</div>
+        <h3>Statistics & Mathematics</h3>
+        <p>Strong foundation in probability, statistical inference, linear algebra, and time series analysis.</p>
+        <div class="tags"><span class="tag">Hypothesis Testing</span><span class="tag">SARIMA</span><span class="tag">Spatial Stats</span><span class="tag">R</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="wrap">
+    <p class="section-label">Projects</p>
+    <h2 class="section-title">Things I've built.</h2>
+    <div class="projects-list">
+      <div class="project-card">
+        <div>
+          <p class="proj-num">Project 01</p>
+          <h3>Consumer Complaints ETL Pipeline</h3>
+          <p>Full end-to-end big data pipeline that ingests, transforms, and loads consumer complaint data using PySpark and DuckDB. Includes an interactive dashboard to explore complaint trends across industries and regions.</p>
+          <div class="tags" style="margin-bottom:.85rem;"><span class="tag">PySpark</span><span class="tag">DuckDB</span><span class="tag">ETL</span><span class="tag">Python</span><span class="tag">Jupyter</span><span class="tag">Scala</span></div>
+          <a href="https://github.com/redina06/big-data-project" target="_blank" class="proj-link">View on GitHub ↗</a>
+        </div>
+        <span class="badge badge-amber">Big Data</span>
+      </div>
+      <div class="project-card">
+        <div>
+          <p class="proj-num">Project 02</p>
+          <h3>Customer Segmentation with K-Means Clustering</h3>
+          <p>Applied unsupervised machine learning to segment customers based on behavior, demographics, and spending patterns. Used K-Means clustering to identify distinct customer groups for targeted marketing strategies.</p>
+          <div class="tags" style="margin-bottom:.85rem;"><span class="tag">K-Means</span><span class="tag">Scikit-learn</span><span class="tag">Python</span><span class="tag">Jupyter</span></div>
+          <a href="https://github.com/redina06/group-5-ml-project" target="_blank" class="proj-link">View on GitHub ↗</a>
+        </div>
+        <span class="badge badge-blue">ML</span>
+      </div>
+      <div class="project-card">
+        <div>
+          <p class="proj-num">Project 03</p>
+          <h3>Global Mortality Trends — Interactive Dashboard</h3>
+          <p>Built an interactive Streamlit dashboard visualizing global age-specific mortality trends from 1970–2010 using IHME Global Burden of Disease data. Features a focus on Ethiopia and Africa with filterable charts and dynamic comparisons.</p>
+          <div class="tags" style="margin-bottom:.85rem;"><span class="tag">Streamlit</span><span class="tag">Python</span><span class="tag">IHME GBD</span><span class="tag">Plotly</span></div>
+          <a href="https://github.com/redina06/dv-assignment" target="_blank" class="proj-link">View on GitHub ↗</a>
+        </div>
+        <span class="badge badge-green">Data Viz</span>
+      </div>
+      <div class="project-card">
+        <div>
+          <p class="proj-num">Project 04</p>
+          <h3>Diabetes Prediction — Data Preprocessing Pipeline</h3>
+          <p>Developed a comprehensive data preprocessing pipeline for diabetes prediction. Covers data cleaning, feature engineering, scaling, and SMOTE-based class balancing to handle imbalanced medical data.</p>
+          <div class="tags" style="margin-bottom:.85rem;"><span class="tag">Python</span><span class="tag">SMOTE</span><span class="tag">Feature Engineering</span><span class="tag">Scikit-learn</span></div>
+          <a href="https://github.com/redina06/Diabetes-project" target="_blank" class="proj-link">View on GitHub ↗</a>
+        </div>
+        <span class="badge badge-purple">Healthcare ML</span>
+      </div>
+      <div class="project-card">
+        <div>
+          <p class="proj-num">Project 05</p>
+          <h3>Traffic Flow Detection & Adaptive Traffic Light System</h3>
+          <p>Real-time intelligent traffic management system using YOLOv11s and ByteTrack. Detects and tracks vehicles from video streams, estimates queue density, and dynamically adjusts green-light timing using a Finite State Machine scheduler. Achieved mAP@50 of 0.828.</p>
+          <div class="tags" style="margin-bottom:.85rem;"><span class="tag">YOLOv11s</span><span class="tag">ByteTrack</span><span class="tag">PyTorch</span><span class="tag">OpenCV</span><span class="tag">Computer Vision</span></div>
+          <a href="https://github.com/redina06/Deep_Learning" target="_blank" class="proj-link">View on GitHub ↗</a>
+        </div>
+        <span class="badge badge-purple">Deep Learning</span>
+      </div>
+      <div class="project-card">
+        <div>
+          <p class="proj-num">Project 06</p>
+          <h3>Sales Forecasting & Demand Prediction System</h3>
+          <p>End-to-end sales forecasting solution for retail businesses using ARIMA/SARIMA, Facebook Prophet, and XGBoost. Covers EDA, time-series modeling, and model comparison using MAPE, RMSE, and MAE with an interactive Streamlit dashboard.</p>
+          <div class="tags" style="margin-bottom:.85rem;"><span class="tag">ARIMA</span><span class="tag">Prophet</span><span class="tag">XGBoost</span><span class="tag">Streamlit</span><span class="tag">CRISP-DM</span></div>
+          <a href="https://github.com/redina06/Project_Managment" target="_blank" class="proj-link">View on GitHub ↗</a>
+        </div>
+        <span class="badge badge-blue">Forecasting</span>
+      </div>
+      <div class="project-card">
+        <div>
+          <p class="proj-num">Project 07</p>
+          <h3>Spatial Analysis of Crop Yields in Ethiopia (1996–2022)</h3>
+          <p>Comprehensive spatial analysis of Maize, Teff, Wheat, and Sorghum yields across Ethiopian regions using CSA survey data. Covers choropleth mapping, Moran's I, LISA clustering, Kriging, IDW interpolation, and spatial regression (OLS, SAR, SEM) — all in R.</p>
+          <div class="tags" style="margin-bottom:.85rem;"><span class="tag">R</span><span class="tag">sf</span><span class="tag">spdep</span><span class="tag">tmap</span><span class="tag">Kriging</span><span class="tag">Spatial Regression</span></div>
+          <a href="https://github.com/redina06/Spatial-Analysis" target="_blank" class="proj-link">View on GitHub ↗</a>
+        </div>
+        <span class="badge badge-green">Spatial Analysis</span>
+      </div>
+      <div class="project-card">
+        <div>
+          <p class="proj-num">Project 08</p>
+          <h3>Time Series Analysis — Monthly Temperature Forecasting</h3>
+          <p>Full time series analysis on the Dubuque, Iowa monthly temperature dataset (1964–1975, 144 observations). Covers seasonal decomposition, stationarity tests, SARIMA model selection, Holt-Winters smoothing, and 24-month ahead forecasts.</p>
+          <div class="tags" style="margin-bottom:.85rem;"><span class="tag">R</span><span class="tag">SARIMA</span><span class="tag">Holt-Winters</span><span class="tag">TSA</span><span class="tag">Stationarity Tests</span></div>
+          <a href="https://github.com/redina06/time_series" target="_blank" class="proj-link">View on GitHub ↗</a>
+        </div>
+        <span class="badge badge-amber">Time Series</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="wrap">
+    <p class="section-label">Education</p>
+    <h2 class="section-title">Academic background.</h2>
+    <div class="edu-card">
+      <div class="edu-icon">🎓</div>
+      <div class="edu-info">
+        <h3>Bachelor of Science — Data Science</h3>
+        <p class="school">Debre Birhan University, Ethiopia <span>· 4th Year (Final Year) · Expected Graduation 2026</span></p>
+        <p>Completed 3 years of Data Science. Entering final year after this summer. Relevant coursework: Machine Learning · Deep Learning · Big Data Systems · Data Visualization · Statistical Inference · Linear Algebra · Database Systems · Python Programming · Data Mining · Spatial Analysis</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-box">
+      <h2>Let's work together.</h2>
+      <p>I'm actively looking for Data Science internship opportunities. If you think I'd be a good fit for your team, I'd love to hear from you.</p>
+      <div class="contact-links">
+        <a href="mailto:redietgoshu06@gmail.com" class="contact-btn primary">✉ redietgoshu06@gmail.com</a>
+        <a href="https://www.linkedin.com/in/rediet-goshu-46a7b736b/" target="_blank" class="contact-btn outline">LinkedIn ↗</a>
+        <a href="https://github.com/redina06" target="_blank" class="contact-btn outline">GitHub ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2025 Rediet Goshu · Addis Ababa, Ethiopia</span>
+  <span>Data Science Portfolio</span>
+</footer>
+
+</body>
+</html>
