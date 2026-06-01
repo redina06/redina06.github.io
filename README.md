@@ -1,5 +1,5 @@
 # Rediet Goshu — Data Science Portfolio
-![Rediet Goshu](photo.jpg)
+![Rediet Goshu](photo_2026-06-01_12-02-32.jpg)
 
 > Personal portfolio website showcasing my data science projects, skills, and background.
 
